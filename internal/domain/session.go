@@ -3,7 +3,7 @@ package domain
 import "time"
 
 type SessionID string
-type UserID string
+// type UserID string
 
 type Session struct {
 	ID        SessionID

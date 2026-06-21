@@ -1,0 +1,194 @@
+===== all_files.txt =====
+
+===== email.go =====
+package domain
+
+import (
+	"regexp"
+	"strings"
+)
+
+var (
+	emailRegex = regexp.MustCompile(`^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$`)
+)
+
+type Email string
+
+func ValidateEmail(raw string) (Email, error) {
+	email := strings.TrimSpace(strings.ToLower(raw))
+	if email == "" {
+		return "", ErrorsInstance.InvalidCredentials
+	}
+	if !emailRegex.MatchString(email) {
+		return "", ErrorsInstance.UserAlreadyExists
+	}
+	return Email(email), nil
+}
+
+func (e Email) String() string {
+	return string(e)
+}
+===== errors.go =====
+package domain
+
+import (
+	"errors"
+	"fmt"
+
+	"github.com/jackc/pgx/v5/pgconn"
+)
+
+
+type Errors struct {
+	InvalidCredentials error
+	UserAlreadyExists  error
+	WeakPassword       error
+	DBTemporary        error
+}
+
+var ErrorsInstance Errors = Errors{
+	InvalidCredentials: errors.New("Invalid Credentials!"),
+	UserAlreadyExists:  errors.New("User Already Exists!"),
+	DBTemporary:        errors.New("temporary database failure"),
+}
+
+func MapPostgresError(err error) error {
+	var pgError *pgconn.PgError
+
+	if errors.As(err, &pgError) {
+		switch pgError.Code {
+		case "23505":
+			if pgError.ConstraintName == "users_email_unique" {
+				return ErrorsInstance.UserAlreadyExists
+			}
+			return fmt.Errorf("Unique COntraint Violation %w", err)
+		case "40001", "40P01":
+			return err
+		}
+
+	}
+	return fmt.Errorf("db error: %w", err)
+}
+
+===== session.go =====
+package domain
+
+import "time"
+
+type SessionID string
+type UserID string
+
+type Session struct {
+	ID        SessionID
+	UserID    UserID
+	ExpiresAt time.Time
+	RevokedAt *time.Time 
+}
+
+func NewSession(sid SessionID, uid UserID, expiresAt time.Time) *Session {
+	return &Session{
+		ID:        sid,
+		UserID:    uid,
+		ExpiresAt: expiresAt,
+	}
+}
+
+func (s *Session) IsExpired(now time.Time) bool {
+	return now.After(s.ExpiresAt)
+}
+
+func (s *Session) IsRevoked() bool {
+	return s.RevokedAt != nil
+}
+
+func (s *Session) Revoke(now time.Time) {
+	if s.RevokedAt == nil {
+		s.RevokedAt = &now
+	}
+}
+
+func (s *Session) IsActive(now time.Time) bool {
+	return !s.IsExpired(now) && !s.IsRevoked()
+}
+
+===== token.go =====
+package domain
+
+import "time"
+
+type TokenHash string
+
+type Token struct {
+	Hash      TokenHash
+	ExpiresAt time.Time
+	RevokedAt *time.Time
+}
+
+func NewToken(hash TokenHash, expiresAt time.Time) *Token {
+	return &Token{
+		Hash:      hash,
+		ExpiresAt: expiresAt,
+	}
+}
+
+func (t *Token) IsExpired(now time.Time) bool {
+	return now.After(t.ExpiresAt)
+}
+
+func (t *Token) IsRevoked() bool {
+	return t.RevokedAt != nil
+}
+
+func (t *Token) Revoke(now time.Time) {
+	if t.RevokedAt == nil {
+		t.RevokedAt = &now
+	}
+}
+
+func (t *Token) IsActive(now time.Time) bool {
+	return !t.IsExpired(now) && !t.IsRevoked()
+}
+
+===== tokens.go =====
+package domain
+
+type AccessTokens struct {
+	Token
+	UserID UserID
+}
+
+type VerificationToken struct {
+	Token
+	UserID UserID
+}
+
+type PasswordResetToken struct {
+	Token
+	UserID UserID
+}
+===== user.go =====
+package domain
+
+import (
+	"time"
+)
+
+type UserId string
+
+type User struct {
+	ID           UserId    `json:"id"`
+	FullName     string    `json:"fullname"`
+	Age          int       `json:"age"`
+	Email        string    `json:"email"`
+	HashPassword string    `json:"-"`
+	Active       bool      `json:"is_active"`
+	CreatedAt    time.Time `json:"created_at"`
+}
+
+func (u *User) HasPassword() bool {
+	if u.HashPassword != "" {
+		return true
+	}
+	return false
+}
+
