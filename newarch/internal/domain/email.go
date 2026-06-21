@@ -14,10 +14,10 @@ type Email string
 func ValidateEmail(raw string) (Email, error) {
 	email := strings.TrimSpace(strings.ToLower(raw))
 	if email == "" {
-		return "", ErrInvalidEmail
+		return "", ErrorsInstance.InvalidCredentials
 	}
 	if !emailRegex.MatchString(email) {
-		return "", ErrInvalidEmail
+		return "", ErrorsInstance.UserAlreadyExists
 	}
 	return Email(email), nil
 }

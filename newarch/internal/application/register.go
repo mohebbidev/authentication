@@ -30,14 +30,14 @@ func (uc *RegisterUseCase) Execute(ctx context.Context, input RegisterInput) (*R
 	}
 
 	if len(input.Password) < 8 {
-		return nil, domain.ErrWeakPassword
+		return nil, domain.ErrorsInstance.
 	}
 
 	existing, err := uc.userRepo.GetByEmail(ctx, email.String())
 	if err != nil {
 		_ = existing
 	} else if existing != nil {
-		return nil, domain.ErrUserAlreadyExists
+		return nil, domain.ErrorsInstance.UserAlreadyExists
 	}
 
 	hash, err := uc.hasher.Hash(input.Password)
