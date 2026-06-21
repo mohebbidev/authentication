@@ -30,7 +30,7 @@ func (uc *RegisterUseCase) Execute(ctx context.Context, input RegisterInput) (*R
 	}
 
 	if len(input.Password) < 8 {
-		return nil, domain.ErrorsInstance.
+		return nil, domain.ErrorsInstance.WeakPassword
 	}
 
 	existing, err := uc.userRepo.GetByEmail(ctx, email.String())
