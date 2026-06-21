@@ -55,9 +55,6 @@ func (uc *RegisterUseCase) Execute(ctx context.Context, input RegisterInput) (*R
 	if err := uc.userRepo.Create(ctx, user); err != nil {
 		return nil, err 
 	}
-
-	// verification
-
 	
 
 	return &RegisterOutput{
