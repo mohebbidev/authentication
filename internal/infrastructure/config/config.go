@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	"golaunch/internal/infrastructure/utils"
+	"authpractice/internal/infrastructure/utils"
 )
 
 type AppConfig struct {
