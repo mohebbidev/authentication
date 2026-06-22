@@ -7,12 +7,13 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 )
 
-
 type Errors struct {
 	InvalidCredentials error
+	InvalidEmail       error
 	UserAlreadyExists  error
-	WeakPassword       error
-	DBTemporary        error
+
+	WeakPassword error
+	DBTemporary  error
 }
 
 var ErrorsInstance Errors = Errors{
