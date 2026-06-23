@@ -17,7 +17,7 @@ func ValidateEmail(raw string) (Email, error) {
 		return "", ErrorsInstance.InvalidCredentials
 	}
 	if !emailRegex.MatchString(email) {
-		return "", ErrorsInstance.InvalidEmail
+		return "", ErrorsInstance.InvalidCredentials
 	}
 	return Email(email), nil
 }
