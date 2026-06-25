@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "authpractice/proto/auth/;auth";
+
+service AuthService {
+  rpc Register             (RegisterRequest)             returns (RegisterResponse);
+  rpc Login                (LoginRequest)                returns (LoginResponse);
+  rpc RefreshToken         (RefreshTokenRequest)         returns (RefreshTokenResponse);
+  rpc Logout               (LogoutRequest)               returns (LogoutResponse);
+  rpc VerifyEmail          (VerifyEmailRequest)          returns (VerifyEmailResponse);
+  rpc RequestPasswordReset (RequestPasswordResetRequest) returns (RequestPasswordResetResponse);
+  rpc ResetPassword        (ResetPasswordRequest)        returns (ResetPasswordResponse);
+}
+
+message RegisterRequest {
+  string full_name     = 1;
+  string email         = 2;
+  string password      = 3;
+  string date_of_birth = 4;
+}
+message RegisterResponse {
+  string user_id = 1;
+}
+
+message LoginRequest {
+  string email    = 1;
+  string password = 2;
+}
+message LoginResponse {
+  string access_token   = 1;
+  string session_id     = 2;
+  int64  session_expiry = 3;
+}
+
+message RefreshTokenRequest  { string session_id  = 1; }
+message RefreshTokenResponse { string access_token = 1; }
+
+message LogoutRequest  { string session_id = 1; }
+message LogoutResponse {}
+
+message VerifyEmailRequest  { string token = 1; }
+message VerifyEmailResponse {}
+
+message RequestPasswordResetRequest  { string email = 1; }
+message RequestPasswordResetResponse { string raw_token = 1; }
+
+message ResetPasswordRequest {
+  string token        = 1;
+  string new_password = 2;
+}
+message ResetPasswordResponse {}
