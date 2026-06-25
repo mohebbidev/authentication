@@ -1,4 +1,4 @@
-package grpchandle
+package grpchandler
 
 import (
 	"fmt"
