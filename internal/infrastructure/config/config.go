@@ -1,18 +1,18 @@
 package config
 
 import (
-	"fmt"
 	"authpractice/internal/infrastructure/utils"
+	"fmt"
 )
 
 type AppConfig struct {
 	Server ServerConfig
 	DB     DBConfig
-	JWT JWTConfig
+	JWT    JWTConfig
 }
 
 type JWTConfig struct {
-	Secret string `json:"theseniggastrynastealmybuttplug"`
+	Secret string `json:"secret"`
 }
 
 type ServerConfig struct {
