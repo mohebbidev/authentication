@@ -4,12 +4,11 @@ import (
 	"authpractice/internal/domain"
 	"context"
 )
-
 type RegisterInput struct {
-	FullName string
-	Age      int
-	Email    string
-	Password string
+	FullName   string
+	DateOfBirth time.Time
+	Email      string
+	Password   string
 }
 
 type RegisterOutput struct {
@@ -49,7 +48,7 @@ func (uc *RegisterUseCase) Execute(ctx context.Context, input RegisterInput) (*R
 		FullName: input.FullName,
 		Email: email.String(),
 		HashPassword: hash,
-		Age: input.Age,
+		DateOfBirth: input.,
 	}
 
 	if err := uc.userRepo.Create(ctx, user); err != nil {
