@@ -8,6 +8,11 @@ import (
 type AppConfig struct {
 	Server ServerConfig
 	DB     DBConfig
+	JWT JWTConfig
+}
+
+type JWTConfig struct {
+	Secret string `json:"theseniggastrynastealmybuttplug"`
 }
 
 type ServerConfig struct {
