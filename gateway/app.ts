@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser'
 import helmet from 'helmet'
 import pinoHttp from 'pino-http'
 import { generalLimiter } from './src/middleware/rateLimiter.js'
-import { authRouter } from './src/routes/auth.js'
+import { authRouter } from './src/routes/auth.routes.js'
 import { getAuthClient } from './src/grpc/client.js'
 import { config } from './config'
 
