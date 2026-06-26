@@ -2,9 +2,9 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 import helmet from 'helmet'
 import pinoHttp from 'pino-http'
-import { generalLimiter } from './middleware/rateLimiter.js'
-import { authRouter } from './routes/auth'
-import { getAuthClient } from './grpc/client'
+import { generalLimiter } from './src/middleware/rateLimiter.js'
+import { authRouter } from './src/routes/auth.js'
+import { getAuthClient } from './src/grpc/client.js'
 import { config } from './config'
 
 export function buildApp() {

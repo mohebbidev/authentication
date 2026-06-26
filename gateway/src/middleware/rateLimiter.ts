@@ -1,7 +1,7 @@
 import { rateLimit } from 'express-rate-limit'
 import { RedisStore } from 'rate-limit-redis'
 import Redis from 'ioredis'
-import { config } from '../config'
+import { config } from '../../config'
 
 let redisClient: Redis | null = null
 

@@ -5,7 +5,7 @@ import { validate } from '../middleware/validate'
 import { requireAuth } from '../middleware/auth'
 import { authLimiter } from '../middleware/rateLimiter'
 import { handleGrpcError } from '../middleware/grpcError'
-import { config } from '../config'
+import { config } from '../../config'
 
 const SESSION_COOKIE = 'sid'
 
