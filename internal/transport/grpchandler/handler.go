@@ -64,7 +64,7 @@ func (h *Handler) Register(ctx context.Context, req *auth.RegisterRequest) (*aut
 		return nil, domainToGRPC(err)
 	}
 
-	return &auth.RegisterResponse{UserId: string(out.UserID)}, nil
+	return &auth.RegisterResponse{UserId: out.UserID}, nil
 }
 
 func (h *Handler) Login(ctx context.Context, req *auth.LoginRequest) (*auth.LoginResponse, error) {

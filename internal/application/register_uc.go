@@ -14,7 +14,7 @@ type RegisterInput struct {
 }
 
 type RegisterOutput struct {
-	UserID *domain.UserID
+	UserID domain.UserID
 }
 
 type RegisterUseCase struct {
@@ -57,6 +57,6 @@ func (uc *RegisterUseCase) Execute(ctx context.Context, input RegisterInput) (*R
 	}
 
 	return &RegisterOutput{
-		UserID: (*domain.UserID)(&user.ID),
+		UserID: (user.ID),
 	}, nil
 }
