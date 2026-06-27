@@ -6,7 +6,7 @@ import { generalLimiter } from './src/middleware/rateLimiter.js'
 import { authRouter } from './src/routes/auth.routes.js'
 import { getAuthClient } from './src/grpc/client.js'
 import { config } from './config'
-
+ 
 export function buildApp() {
     const app = express()
 
