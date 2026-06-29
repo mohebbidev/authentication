@@ -12,7 +12,9 @@ type AppConfig struct {
 }
 
 type JWTConfig struct {
-	Secret string `json:"secret"`
+	Secret                string `json:"secret"`
+	AccessTokenTTLMinutes int    `json:"access_token_ttl_minutes"`
+	SessionTTLDays        int    `json:"session_ttl_days"`
 }
 
 type ServerConfig struct {
