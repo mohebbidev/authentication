@@ -2,6 +2,7 @@ package application
 
 import (
 	"authpractice/internal/domain"
+	"authpractice/internal/infrastructure/security"
 	"context"
 	"time"
 )
@@ -20,6 +21,13 @@ type RegisterOutput struct {
 type RegisterUseCase struct {
 	userRepo UserRepository
 	hasher   PasswordHasher
+}
+
+func NewRegisterUseCase(userRepo *UserRepository, hasher *security.BcryptHasher) *RegisterUseCase{
+	return &RegisterUseCase{
+		userRepo: *userRepo,
+		hasher: hasher,
+	}
 }
 
 func (uc *RegisterUseCase) Execute(ctx context.Context, input RegisterInput) (*RegisterOutput, error) {
