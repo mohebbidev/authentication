@@ -7,7 +7,7 @@ import (
 	"authpractice/internal/infrastructure/database"
 	"authpractice/internal/infrastructure/database/postgres"
 	"authpractice/internal/infrastructure/security"
-	grpchandler "authpractice/internal/transport/grpc"
+	grpchandler "authpractice/internal/transport/grpchandler"
 	"context"
 	"log/slog"
 	"os"
