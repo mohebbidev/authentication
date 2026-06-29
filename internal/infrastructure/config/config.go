@@ -47,6 +47,16 @@ func LoadConfig() (AppConfig, error) {
 		return AppConfig{}, fmt.Errorf("Please Fill The Required Fields")
 	}
 
+	if cfg.JWT.Secret == "" {
+		return AppConfig{}, fmt.Errorf("JWT secret is required")
+	}
+	if cfg.JWT.AccessTokenTTLMinutes == 0 {
+		cfg.JWT.AccessTokenTTLMinutes = 15
+	}
+	if cfg.JWT.SessionTTLDays == 0 {
+		cfg.JWT.SessionTTLDays = 30
+	}
+
 	// FUCKED UP REGEX PATTERN
 	// if !re.MatchString(cfg.DB.Host) {
 	// 	return AppConfig{}, fmt.Errorf("Invalid hostname format: %s", cfg.DB.Host)

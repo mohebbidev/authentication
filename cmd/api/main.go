@@ -5,7 +5,7 @@ import (
 	"authpractice/internal/application"
 	"authpractice/internal/infrastructure/config"
 	"authpractice/internal/infrastructure/database"
-	"authpractice/internal/infrastructure/postgres"
+	"authpractice/internal/infrastructure/database/postgres"
 	"authpractice/internal/infrastructure/security"
 	grpchandler "authpractice/internal/transport/grpc"
 	"context"

@@ -2,6 +2,7 @@ package application
 
 import (
 	"authpractice/internal/domain"
+	"authpractice/internal/infrastructure/database/postgres"
 	"authpractice/internal/infrastructure/security"
 	"context"
 	"time"
@@ -23,9 +24,9 @@ type RegisterUseCase struct {
 	hasher   PasswordHasher
 }
 
-func NewRegisterUseCase(userRepo *UserRepository, hasher *security.BcryptHasher) *RegisterUseCase{
+func NewRegisterUseCase(userRepo *postgres.UserRepo, hasher *security.BcryptHasher) *RegisterUseCase{
 	return &RegisterUseCase{
-		userRepo: *userRepo,
+		userRepo: userRepo,
 		hasher: hasher,
 	}
 }
